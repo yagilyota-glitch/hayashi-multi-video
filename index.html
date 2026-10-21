@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Multi-Video Canvas | hayashi</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body class="bg-dark">
+  <!-- トップコントロールバー -->
+  <header id="toolbar" class="toolbar">
+    <div class="toolbar-group brand">
+      <span class="dot"></span>
+      <span class="brand-title">Multi-Video Canvas</span>
+    </div>
+
+    <div class="toolbar-group controls">
+      <button id="btn-play-all" class="btn" title="すべて再生 / 一時停止 (Space)">
+        <span id="icon-play-all">⏸ 一時停止</span>
+      </button>
+      <button id="btn-sync" class="btn" title="全ムービーの再生位置を先頭に同期">
+        ↺ 同期
+      </button>
+      <div class="divider"></div>
+      <button id="btn-layout-grid" class="btn" title="グリッド状に整列・初期化">
+        ⊞ 整列リセット
+      </button>
+      <button id="btn-layout-scatter" class="btn" title="ランダムに角度・サイズをつけて配置">
+        ✦ ランダム配置
+      </button>
+      <div class="divider"></div>
+      <label class="btn btn-accent" title="手元の動画ファイル（MP4/WebM/MOV）を追加">
+        ＋ 動画を追加
+        <input id="input-add-video" type="file" accept="video/*" multiple hidden />
+      </label>
+      <div class="divider"></div>
+      <button id="btn-bg" class="btn" title="背景色を切り替え">
+        ◐ 背景
+      </button>
+      <button id="btn-clean" class="btn" title="操作UIや枠線を隠す (Hキー)">
+        👁 UI非表示
+      </button>
+    </div>
+  </header>
+
+  <!-- UI非表示時の復帰ボタン -->
+  <button id="btn-restore-ui" class="restore-ui-btn" title="UIを再表示 (H / Esc)">
+    👁 UIを表示
+  </button>
+
+  <!-- メインキャンバス領域 -->
+  <main id="stage" class="stage" aria-label="マルチムービー配置キャンバス">
+    <!-- JSによって .video-item が動的に生成・配置されます -->
+  </main>
+
+  <!-- 選択中ムービーのステータス・詳細操作バー -->
+  <footer id="inspector" class="inspector hidden">
+    <div class="inspector-item title-badge" id="insp-title">Movie 01</div>
+    <div class="inspector-item">
+      <label for="insp-scale">拡大率</label>
+      <input id="insp-scale" type="range" min="25" max="300" value="100" step="1" />
+      <span id="insp-scale-val" class="mono">100%</span>
+      <button id="btn-reset-scale" class="mini-btn" title="100%に戻す">100%</button>
+    </div>
+    <div class="inspector-item">
+      <label for="insp-rotate">回転角</label>
+      <input id="insp-rotate" type="range" min="-180" max="180" value="0" step="1" />
+      <span id="insp-rotate-val" class="mono">0°</span>
+      <button id="btn-reset-rotate" class="mini-btn" title="0°に戻す">0°</button>
+    </div>
+    <div class="inspector-actions">
+      <button id="btn-mute-selected" class="mini-btn" title="この動画の音声ミュート切替">🔇 消音中</button>
+      <label class="mini-btn" title="この枠の動画を別ファイルに差し替え">
+        ⇄ 差替
+        <input id="input-replace-video" type="file" accept="video/*" hidden />
+      </label>
+      <button id="btn-delete-selected" class="mini-btn danger" title="この動画を削除 (Delete)">✕</button>
+    </div>
+  </footer>
+
+  <!-- 操作ヒント（右下に控えめに表示） -->
+  <div id="help-hint" class="help-hint">
+    ドラッグ: 移動 ｜ 四隅ハンドル / ホイール: 拡大縮小 ｜ 上部ハンドル / Shift+ホイール: 回転 ｜ ファイルドロップ対応
+  </div>
+
+  <!-- ドラッグ＆ドロップオーバーレイ -->
+  <div id="drop-overlay" class="drop-overlay hidden">
+    <div class="drop-box">
+      <div class="drop-icon">🎬</div>
+      <div class="drop-text">動画ファイルをドロップしてキャンバスに追加</div>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
